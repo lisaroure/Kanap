@@ -61,45 +61,52 @@ function getPost(article) {
 }
 
 function addToCart(article) {
-    const envoyerAuPanier = document.querySelector("#addToCart");
+    const btnAddCart = document.querySelector("#addToCart");
 
-    envoyerAuPanier.addEventListener('click', (event) => {
+    btnAddCart.addEventListener('click', (event) => {
         if (quantityChoose.value > 0 && quantityChoose.value <= 100 && quantityChoose.value != 0) {
+
+            //Recupération du choix de la couleur
             let choixCouleur = colorChoose.value;
+
+            //Recupération du choix de la quantité
             let choixQuantite = quantityChoose.value;
 
+            //Récupération des options de l'article à ajouter au panier
             let details = {
-                Id: id,
-                Couleur: ("Couleur", document.getElementById('colors').value),
-                Quantité: ("Quantité", document.getElementById('quantity').value),
-                Nom: ("Nom", document.getElementById('title').innerHTML),
-            }
+                idProduit: id,
+                couleurProduit: choixCouleur,
+                quantiteProduit: Number(choixQuantite),
+                nomProduit: article.name,
+                prixProduit: article.price,
+                descriptionProduit: article.description,
+                imgProduit: article.imageUrl,
+                altImgProduit: article.altTxt
+            };
+
             let produitLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
             // Fenêtre pop-up
 
             const popupConfirm = () => {
-                if (window.confirm(`Votre commande de ${quantiteChoose} ${article.name} ${colorChoose} est ajoutée au panier
+                if (window.confirm(`Votre commande de ${choixQuantite} ${article.name} ${choixCouleur} est ajoutée au panier
                 Pour consulter votre panier, cliquez sur OK`)) {
                     window.location.href = "cart.html";
                 }
             }
-
             // S'il y a déjà au moins un article dans le panier : 
 
             if (produitLocalStorage) {
                 const resultFind = produitLocalStorage.find(
-                    (el) => el.Id === id && el.productColors === choixCouleur);
-
+                    (el) => el.Id === id && el.couleurProduit === choixCouleur);
                 // Dans le cas où il y aurait déjà le même article dans le panier, on ajuste la quantité:
                 if (resultFind) {
                     let newQuantite =
-                        parseInt(details.Quantité) + parseInt(resultFind.Quantité);
-                    resultFind.Quantité = newQuantite;
+                        parseInt(details.Quantité) + parseInt(resultFind.quantiteProduit);
+                    resultFind.quantiteProduit = newQuantite;
                     localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
                     console.table(produitLocalStorage);
                     popupConfirm();
-
                     // Dans le cas où le produit voulu n'est pas dans le panier:
                 } else {
                     produitLocalStorage.push(details);
