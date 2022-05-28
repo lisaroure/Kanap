@@ -1,45 +1,66 @@
+
 // Ici j'inclus dans une constante "url" l'ID du produit avec son adresse locale, en la rajoutant à la constante qui la contient, la const "id"
 
+let params = window.location.href;
+let url = new URL(params);
+let idProduct = url.searchParams.get('id');
+console.log(idProduct);
+let article = "";
+const colorChoose = document.querySelector("#colors");
+const quantityChoose = document.querySelector("#quantity");
 
-let params = new URLSearchParams(window.location.search);
-const id = params.get('id');
-const url = 'http://localhost:3000/api/products/' + id;
-fetch(url)
-    .then(function (res) {
-        if (res.ok) {
-            return res.json();
-        }
-    })
+getArticle();
 
-    // Création de la constante "product" et des variables nommées comme dans la page HTML pour chaque produit. La propriété innerHTML va m'aider à récupérer les valeurs qui se trouvent dans le fichier HTML.
+// Je récupère les données de l'API
 
-    .then(function (product) {
+function getArticle() {
+    fetch("http://localhost:3000/api/products/" + idProduct)
+        .then((res) => {
+            return res.JSON();
+        })
 
-        let items = document.getElementById('title');
-        items.innerHTML = product.name;
+        // Je répartis les données de l'API dans le DOM
+        .then(async function (resultatAPI) {
+            article = await resultatAPI;
+            console.table(article);
+            if (article) {
+                getPost(article);
+            }
+        })
+        .catch((error) => {
+            console.log("Erreur requête API");
+        })
+}
 
-        let price = document.getElementById('price');
-        price.innerHTML = product.price;
+// Création de la fonction "product" et des variables nommées comme dans la page HTML pour chaque produit. La propriété innerHTML va m'aider à récupérer les valeurs qui se trouvent dans le fichier HTML.
 
-        let description = document.getElementById('description');
-        description.innerHTML = product.description;
+function getPost(article) {
 
-        let item = document.getElementById('imgId');
-        let img = document.createElement('img');
-        img.classList.add("productImg");
-        img.src = product.imageUrl;
-        img.alt = product.altTxt;
-        document.querySelector(".item__img").appendChild(img);
+    let items = document.getElementById('title');
+    items.innerHTML = product.name;
+
+    let price = document.getElementById('price');
+    price.innerHTML = product.price;
+
+    let description = document.getElementById('description');
+    description.innerHTML = product.description;
+
+    let item = document.getElementById('imgId');
+    let img = document.createElement('img');
+    img.classList.add("productImg");
+    img.src = product.imageUrl;
+    img.alt = product.altTxt;
+    document.querySelector(".item__img").appendChild(img);
 
 
-        let colorSelection = document.getElementById('colors');
-        product.colors.forEach(color => {
-            const colorChoice = document.createElement('option');
-            colorChoice.value = color;
-            colorChoice.innerHTML = color;
-            colorSelection.appendChild(colorChoice);
-        });
-    })
+    let colorSelection = document.getElementById('colors');
+    product.colors.forEach(color => {
+        const colorChoice = document.createElement('option');
+        colorChoice.value = color;
+        colorChoice.innerHTML = color;
+        colorSelection.appendChild(colorChoice);
+    });
+}
 
 let addToCart = document.getElementById('addToCart');
 addToCart.addEventListener('click', function () {
