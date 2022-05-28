@@ -82,7 +82,7 @@ function addToCart(article) {
                 descriptionProduit: article.description,
                 imgProduit: article.imageUrl,
                 altImgProduit: article.altTxt
-            };
+            }
 
             let produitLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
