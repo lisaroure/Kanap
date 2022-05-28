@@ -182,3 +182,8 @@ function deleteItem() {
     }
 }
 deleteItem();
+
+function getForm() {
+    let formulaire = document.querySelectorAll(".cart__order__form");
+
+}
