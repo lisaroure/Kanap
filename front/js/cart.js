@@ -117,15 +117,18 @@ function getTotals() {
 
     for (let i = 0; i < qttLength; ++i) {
         totalQtt += itemQtt[i].valueAsNumber;
+        console.log(itemQtt[i]);
     }
 
     let itemTotalQuantity = document.getElementById('totalQuantity');
     itemTotalQuantity.innerHTML = totalQtt;
+
+    console.log(qttLength);
     console.log(totalQtt);
 
     // Je récupère le prix total
 
-    totalPrice = 0;
+    let totalPrice = 0;
 
     for (var i = 0; i < qttLength; ++i) {
         totalPrice += (itemQtt[i].valueAsNumber * produitLocalStorage[i].prixProduit);
@@ -140,7 +143,7 @@ getTotals();
 // Si l'on modifie les quantités de produits :
 
 function qttModify() {
-    let modifierQtt = document.querySelectorAll(".itemQuantity");
+    let modifierQtt = document.querySelectorAll('itemQuantity');
 
     for (let k = 0; k < modifierQtt.length; k++) {
         modifierQtt[k].addEventListener("change", (event) => {
