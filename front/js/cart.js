@@ -1,4 +1,4 @@
-// Récupération de l'id des produits grâce à une fonction asynchrone
+// J'initialise le local storage et récupère les id des produits:
 
 async function init() {
     product = await getProductById();
@@ -22,6 +22,7 @@ function getProductById() {
             })
     );
 }
+
 // Bouton pour commander:
 const commandBtn = document.getElementById('order');
 commandBtn.addEventListener('click', postForm);
