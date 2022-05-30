@@ -34,7 +34,7 @@ if (localStorage.getItem('orderId') != null) {
 }
 function getCart() {
     if (produitLocalStorage === null || produitLocalStorage == 0) {
-        let emptyCart = `<p>Votre panier est vide.</p>`;
+        const emptyCart = `<p>Votre panier est vide.</p>`;
         positionEmptyCart.innerHTML = emptyCart;
     } else {
         // ici je crée une boucle et je récupère/crée les éléments du document html
@@ -111,24 +111,21 @@ getCart();
 //Je récupère le total des produits
 
 function getTotals() {
-    let itemQtt = document.getElementsByClassName('itemQuantity');
-    let qttLength = itemQtt.length,
+    var itemQtt = document.getElementsByClassName('itemQuantity');
+    var qttLength = itemQtt.length,
         totalQtt = 0;
 
-    for (let i = 0; i < qttLength; ++i) {
+    for (var i = 0; i < qttLength; ++i) {
         totalQtt += itemQtt[i].valueAsNumber;
-        console.log(itemQtt[i]);
     }
 
     let itemTotalQuantity = document.getElementById('totalQuantity');
     itemTotalQuantity.innerHTML = totalQtt;
-
-    console.log(qttLength);
     console.log(totalQtt);
 
     // Je récupère le prix total
 
-    let totalPrice = 0;
+    totalPrice = 0;
 
     for (var i = 0; i < qttLength; ++i) {
         totalPrice += (itemQtt[i].valueAsNumber * produitLocalStorage[i].prixProduit);
@@ -186,7 +183,70 @@ function deleteItem() {
 }
 deleteItem();
 
+//Insertion du formulaire avec les expressions régulières :
 function getForm() {
-    let formulaire = document.querySelectorAll(".cart__order__form");
+    let form = document.querySelector(".cart__order__form");
+    let mail = new RegExp("^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$");
+    let characters = new RegExp("^[a-zA-Z ,.'-]+$");
+    let address = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 
+    // Ecoute des modifications des éléments du form:
+    form.firstName.addEventListener('change', function () {
+        validFirstName(this);
+    });
+    form.lastName.addEventListener('change', function () {
+        validLastName(this);
+    });
+    form.address.addEventListener('change', function () {
+        validAddress(this);
+    });
+    form.city.addEventListener('change', function () {
+        validCity(this);
+    });
+    form.email.addEventListener('change', function () {
+        validEmail(this);
+    });
+
+    // Validation des éléments du form:
+    const validFirstName = function (inputFirstName) {
+        let firstNameAlertError = inputFirstName.nextElementSibling;
+        if (characters.test(inputFirstName.value)) {
+            firstNameAlertError.innerHTML = '';
+        } else {
+            firstNameAlertError.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+    const validLastName = function (inputLastName) {
+        let lastNameAlertError = inputLastName.nextElementSibling;
+        if (characters.test(inputLastName.value)) {
+            lastNameAlertError.innerHTML = '';
+        } else {
+            lastNameAlertError.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+    const validAddress = function (inputAddress) {
+        let addressAlertError = inputAddress.nextElementSibling;
+        if (characters.test(inputAddress.value)) {
+            addressAlertError.innerHTML = '';
+        } else {
+            addressAlertError.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+    const validCity = function (inputCity) {
+        let cityAlertError = inputCity.nextElementSibling;
+        if (characters.test(inputCity.value)) {
+            cityAlertError.innerHTML = '';
+        } else {
+            cityAlertError.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+    const validEmail = function (inputEmail) {
+        let emailAlertError = inputEmail.nextElementSibling;
+        if (characters.test(inputEmail.value)) {
+            emailAlertError.innerHTML = '';
+        } else {
+            emailAlertError.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
 }
+getForm();
