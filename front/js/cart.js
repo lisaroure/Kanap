@@ -1,10 +1,5 @@
 // J'initialise le local storage et récupère les id des produits:
 
-async function init() {
-    product = await getProductById();
-    console.log(product)
-}
-
 let produitLocalStorage = JSON.parse(localStorage.getItem("produit"));
 function getProductById() {
     const params = new URL(document.location).searchParams;
