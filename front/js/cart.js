@@ -79,7 +79,7 @@ function getCart() {
             contentSettings.appendChild(settingsQuantity);
             settingsQuantity.className = "cart__item__content__settings__quantity";
 
-            let quantity = document.createElement("p");
+            let quantity = document.createElement("input");
             settingsQuantity.appendChild(quantity);
             quantity.innerHTML = "Qté : ";
 
@@ -109,21 +109,21 @@ getCart();
 
 function getTotals() {
     var itemQtt = document.getElementsByClassName('itemQuantity');
-    var qttLength = itemQtt.length,
-        totalQtt = 0;
+    let qttLength = itemQtt.length;
+    let totalQtt = 0;
 
     for (var i = 0; i < qttLength; ++i) {
-        totalQtt += itemQtt[i].valueAsNumber;
+        totalQtt += itemQtt[i].value;
     }
 
     let itemTotalQuantity = document.getElementById('totalQuantity');
-    itemTotalQuantity.innerHTML = totalQtt;
+    itemTotalQuantity.innerHTML = totalQtt
     console.log(totalQtt);
     // Je récupère le prix total
     totalPrice = 0;
 
     for (var i = 0; i < qttLength; ++i) {
-        totalPrice += (itemQtt[i].valueAsNumber * produitLocalStorage[i].prixProduit);
+        totalPrice += (itemQtt[i].value * produitLocalStorage[i].prixProduit);
     }
     let totalPriceItems = document.getElementById('totalPrice');
     totalPriceItems.innerHTML = totalPrice;
@@ -141,7 +141,7 @@ function qttModify() {
             event.preventDefault();
 
             let modificationQtt = produitLocalStorage[k].quantiteProduit;
-            let qttModifValue = modifierQtt[k].valueAsNumber;
+            let qttModifValue = modifierQtt[k].value;
 
             const resultFind = produitLocalStorage.find((el) => el.qttModifValue !== modificationQtt);
             resultFind.quantiteProduit = qttModifValue;
