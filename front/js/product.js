@@ -30,8 +30,8 @@ function getArticle() {
         })
 }
 
-// Création de la fonction "getPost" et des variables nommées comme dans la page HTML pour chaque produit. La propriété innerHTML va m'aider à récupérer les valeurs qui se trouvent dans le fichier HTML.
-
+// Création de la fonction "getPost" et des variables nommées comme dans la page HTML pour chaque produit. 
+// La propriété innerHTML va m'aider à récupérer les valeurs qui se trouvent dans le fichier HTML.
 function getPost(article) {
 
     let items = document.getElementById('title');
@@ -60,10 +60,11 @@ function getPost(article) {
     addToCart(article);
 }
 
+// Gestion du panier, création d'une fonction où l'on gère la gestion avec le bouton "Ajouter au panier" 
 function addToCart(article) {
     const btnAddCart = document.querySelector("#addToCart");
 
-    btnAddCart.addEventListener('click', (event) => {
+    btnAddCart.addEventListener("click", (event) => {
         if (quantityChoose.value > 0 && quantityChoose.value <= 100 && quantityChoose.value != 0) {
 
             //Recupération du choix de la couleur
@@ -83,28 +84,25 @@ function addToCart(article) {
                 imgProduit: article.imageUrl,
                 altImgProduit: article.altTxt
             }
-
+            // Initialisation du LS
             let produitLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
-            // Fenêtre pop-up
-
+            // Fenêtre pop-up de confirmation d'ajout de l'article au panier
             const popupConfirm = () => {
                 if (window.confirm(`Votre commande de ${choixQuantite} ${article.name} ${choixCouleur} est ajoutée au panier
                 Pour consulter votre panier, cliquez sur OK`)) {
                     window.location.href = "cart.html";
                 }
             }
-
             // Importation dans le local storage
             // S'il y a déjà au moins un article dans le panier : 
-
             if (produitLocalStorage) {
                 const resultFind = produitLocalStorage.find(
-                    (el) => el.Id === id && el.couleurProduit === choixCouleur);
+                    (el) => el.idProduit === id && el.couleurProduit === choixCouleur);
                 // Dans le cas où il y aurait déjà le même article dans le panier, on ajuste la quantité:
                 if (resultFind) {
                     let newQuantite =
-                        parseInt(details.Quantité) + parseInt(resultFind.quantiteProduit);
+                        parseInt(details.quantiteProduit) + parseInt(resultFind.quantiteProduit);
                     resultFind.quantiteProduit = newQuantite;
                     localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
                     console.table(produitLocalStorage);
