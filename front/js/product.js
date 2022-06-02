@@ -94,6 +94,7 @@ function addToCart(article) {
                     window.location.href = "cart.html";
                 }
             }
+
             // Importation dans le local storage
             // S'il y a déjà au moins un article dans le panier : 
 
