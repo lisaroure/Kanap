@@ -1,5 +1,4 @@
 // J'initialise le local storage et récupère les id des produits:
-
 let produitLocalStorage = JSON.parse(localStorage.getItem("produit"));
 function getProductById() {
     const params = new URL(document.location).searchParams;
@@ -34,6 +33,7 @@ function getCart() {
         const emptyCart = `<p>Votre panier est vide.</p>`;
         positionEmptyCart.innerHTML = emptyCart;
     } else {
+
         // ici je crée une boucle et je récupère/crée les éléments du document html
         for (let produit in produitLocalStorage) {
 
@@ -106,7 +106,6 @@ function getCart() {
 getCart();
 
 //Je récupère le total des produits
-
 function getTotals() {
     let itemQtt = document.getElementsByClassName('itemQuantity');
     let qttLength = itemQtt.length;
@@ -132,7 +131,6 @@ function getTotals() {
 getTotals();
 
 // Si l'on modifie les quantités de produits :
-
 function qttModify() {
     const modifierQtt = document.querySelectorAll(".itemQuantity");
 
@@ -155,7 +153,6 @@ function qttModify() {
 qttModify();
 
 // Supprimer un produit en fonction de son id et sa couleur :
-
 function deleteProduct() {
     let dltBtn = document.querySelectorAll(".deleteItem");
 
@@ -244,7 +241,7 @@ function getForm() {
     };
 }
 getForm();
-
+// Récupération des éléments en lien avec le formulaire (nom, prénom etc)
 function postForm() {
     let inputFirstName = document.getElementById('firstName');
     let inputLastName = document.getElementById('lastName');
@@ -268,7 +265,7 @@ function postForm() {
         },
         products: idProducts,
     }
-
+    // Envoi des données du formulaire avec la méthode POST, et renvoi vers la page order pour confirmation
     const options = {
         method: 'POST',
         body: JSON.stringify(order),
